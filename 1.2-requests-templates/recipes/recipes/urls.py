@@ -18,6 +18,5 @@ from django.urls import path
 from calculator.views import recipe_book
 
 urlpatterns = [
-    # здесь зарегистрируйте вашу view-функцию
     path('<recipe>/', recipe_book),
 ]

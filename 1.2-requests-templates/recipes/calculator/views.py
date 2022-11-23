@@ -23,40 +23,21 @@ DATA = {
 
 def recipe_book(request, recipe):
     servings = int(request.GET.get('servings', 1))
-    if recipe == 'omlet':
-        servings = int(request.GET.get('servings', 1))
-        context = {
-            'recipe': {
-                'яйца, шт': 2 * servings,
-                'молоко, л': 0.1 * servings,
-                'соль, ч.л.': 0.5 * servings,
-            },
-        }
-    if recipe == 'pasta':
-        context = {
-            'recipe': {
-                'макароны, г': 0.3 * servings,
-                'сыр, г': 0.05 * servings,
-            },
-        }
-    if recipe == 'buter':
-        servings = int(request.GET.get('servings', 1))
-        context = {
-            'recipe': {
-                'хлеб, ломтик': 1 * servings,
-                'колбаса, ломтик': 1 * servings,
-                'сыр, ломтик': 1 * servings,
-                'помидор, ломтик': 1 * servings,
-            },
-        }
-    return render(request, 'calculator/index.html', context)
 
-# Напишите ваш обработчик. Используйте DATA как источник данных
-# Результат - render(request, 'calculator/index.html', context)
-# В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
+    data_recipe = DATA.get(recipe)  # находим нужный словарь внутри словаря
+
+    new_list = []
+    for i in data_recipe.values():  # умножаем список значений на количество персон, добавляем в новый список
+        data = servings * i
+        new_list.append(data)
+
+    key_list = []
+    for i in data_recipe:  # создаем список значений
+        key_list.append(i)
+
+    data_context = dict(zip(key_list, new_list))  # создаем временный словарь с новыми значениями
+
+    context = {
+        'recipe': data_context
+    }
+    return render(request, 'calculator/index.html', context)
