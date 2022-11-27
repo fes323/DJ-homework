@@ -22,4 +22,3 @@ class Command(BaseCommand):
                 lte_exists=phone['lte_exists'],
             )
             phone_data.save()
-
