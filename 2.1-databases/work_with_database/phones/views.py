@@ -1,3 +1,4 @@
+from django.http import QueryDict
 from django.shortcuts import render, redirect
 
 from phones.models import Phone
@@ -10,14 +11,14 @@ def index(request):
 def show_catalog(request):
     template = 'catalog.html'
     phones = Phone.objects.all()
+    response = request.GET.get('sort')
 
-    for i in request.GET:
-        if 'name' in i:
-            print('NAME')
-        if i == 'sort=min_price':
-            print('MIN_PRICE')
-        if i == 'max_price':
-            print('MAX_PRICE')
+    if response == 'name':
+        phones = Phone.objects.filter().order_by('name')
+    if response == 'min_price':
+        phones = Phone.objects.filter().order_by('price')
+    if response == 'max_price':
+        phones = Phone.objects.filter().order_by('-price')
 
     context = {
         'phones': phones,
