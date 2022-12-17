@@ -1,8 +1,20 @@
 from django.contrib import admin
 
-from .models import Article
+from .models import Article, Tag, Scope
+
+
+class ScopeInline(admin.TabularInline):
+    model = Scope
+    extra = 5
 
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    pass
+    display_list = ['id']
+    inlines = [ScopeInline, ]
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    display_list = ['id']
+
