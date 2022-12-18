@@ -20,12 +20,15 @@ class Article(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=60, verbose_name='тег')
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
 
 
 class Scope(models.Model):
-    scopes = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='news')
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='tags')
+    scopes = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='scopes')
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='tag')
     is_main = models.BooleanField(('основной'), default=False)
