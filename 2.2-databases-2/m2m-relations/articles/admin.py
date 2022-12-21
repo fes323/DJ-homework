@@ -7,9 +7,15 @@ from .models import Article, Tag, Scope
 
 class ScopeInlineFormset(BaseInlineFormSet):
     def clean(self):
+        is_main_Counter = 0
         for form in self.forms:
-            form.cleaned_data
-            raise ValidationError('ВНИМАНИЕ: основной тег может быть только один! Отметьте галочкой только 1 тег.')
+            form_dict = form.cleaned_data
+            data = form_dict.get('is_main')
+            if data == True:
+                is_main_Counter += 1
+                print(is_main_Counter)
+            if is_main_Counter > 1:
+                raise ValidationError('ВНИМАНИЕ: основной тег может быть только один! Отметьте галочкой только 1 тег.')
         return super().clean()
 
 
